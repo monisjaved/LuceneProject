@@ -1,0 +1,33 @@
+GetPostings
+term0
+Postings list: 
+GetPostings
+term1
+Postings list: 
+GetPostings
+term2
+Postings list: 
+GetPostings
+term3
+Postings list: 
+GetPostings
+term4
+Postings list: 
+GetPostings
+term5
+Postings list: 
+GetPostings
+term6
+Postings list: 
+GetPostings
+term7
+Postings list: 
+GetPostings
+term8
+Postings list: 
+GetPostings
+term9
+Postings list: 
+GetPostings
+term10
+Postings list: 
