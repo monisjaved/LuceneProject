@@ -59,8 +59,9 @@ public class LuceneProject {
 		                LinkedList<Integer> termLinkedList = new LinkedList<Integer>();
 		                int i;
 		                while ((i = postingsEnum.nextDoc()) != PostingsEnum.NO_MORE_DOCS) {
-		                    Document doc = reader.document(i); // The document
-		                    termLinkedList.add(Integer.parseInt(doc.getField("id").stringValue()));
+//		                    Document doc = reader.document(i); // The document
+//		                    termLinkedList.add(Integer.parseInt(doc.getField("id").stringValue()));
+		                    termLinkedList.add(i);
 		                }
 		                invertedIndex.put(stringedText, termLinkedList);
 		            }
@@ -157,7 +158,10 @@ public class LuceneProject {
 	}
 	
 	public static void main (String[] args) throws IOException, ParseException{
+		final long startTime = System.currentTimeMillis();
 		getIndexFromDir(args[0]);
+		final long endTime = System.currentTimeMillis();
+		System.out.println("Total execution time: " + (endTime - startTime)/1000 );
 		getOutputs(args[1]);
 		getInputs(args[2]);
 		
