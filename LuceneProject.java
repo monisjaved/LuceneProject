@@ -24,7 +24,7 @@ import org.apache.lucene.util.BytesRef;
 public class LuceneProject {
 	
 	private static IndexReader reader;
-	private static HashMap<String, LinkedList<Integer>> invertedIndex =  new HashMap<String, LinkedList<Integer>>();
+	private static HashMap<String, LinkedList<Integer>> invertedIndex;
 	private static PrintWriter outputFile;
 	private static Scanner inputFile;
 	
@@ -33,6 +33,8 @@ public class LuceneProject {
 			FileSystem fs = FileSystems.getDefault();
 			Directory indexDirectory = FSDirectory.open(fs.getPath(indexDirectoryPath, new String[0]));
 			reader = DirectoryReader.open(indexDirectory);
+//			System.out.println(reader.document(32213).getField("text_de").stringValue());
+//			System.exit(0);
 			createInvertedIndex();
 		}
 		catch(Exception exception){
@@ -42,6 +44,7 @@ public class LuceneProject {
 	
 	public static void createInvertedIndex (){
 		try {
+			invertedIndex =  new HashMap<String, LinkedList<Integer>>();
 			System.out.println("Number of Documents in Reader:\t" + reader.numDocs());
 			Fields fields = MultiFields.getFields(reader);
 	        for (String field : fields) {
@@ -54,6 +57,9 @@ public class LuceneProject {
 		            while ((text = termsEnum.next()) != null) {
 		                count++;
 		                String stringedText = text.utf8ToString();
+//		                if (field.equals("text_de")){
+//			                System.out.println("'"+stringedText+"'");
+//		                }
 		                PostingsEnum postingsEnum = MultiFields.getTermDocsEnum(reader,
 		                        field, text, PostingsEnum.FREQS);
 		                LinkedList<Integer> termLinkedList = new LinkedList<Integer>();
@@ -64,6 +70,8 @@ public class LuceneProject {
 		                    termLinkedList.add(i);
 		                }
 		                invertedIndex.put(stringedText, termLinkedList);
+//		                System.out.println(invertedIndex.get("adspurg"));
+//		                System.exit(0);
 		            }
 		            System.out.print(count+"\n");
 	        	}
@@ -125,9 +133,73 @@ public class LuceneProject {
 		}
 	}
 	
+	public static String[] GetSortedTermsList(String[] terms) {
+		for (int i=0;i<terms.length;i++){
+			for (int j=0;j<terms.length;j++){
+				Integer counti = invertedIndex.get(terms[i]) != null ? invertedIndex.get(terms[i]).size():0;
+				Integer countj = invertedIndex.get(terms[j]) != null ? invertedIndex.get(terms[j]).size():0;
+				String temp;
+				if (counti < countj);
+					temp = terms[i];
+					terms[i] = terms[j];
+					terms[j] = temp;
+			}
+		}
+		return terms;
+	}
+	
 	public static void TaatAnd (String termString) {
 		try {
-			System.out.println("TaatAnd " + termString);
+			String[] terms = termString.split(" ");
+			Integer numComparisons = 0;
+			outputFile.println("TaatAnd");
+			outputFile.println(termString);
+			outputFile.print("Results: ");
+
+//			System.out.println();
+			terms = GetSortedTermsList(terms);
+			LinkedList<Integer>[] termsPostingsArray = new LinkedList[terms.length];
+			for(int i=0; i<terms.length;i++){
+				termsPostingsArray[i] = invertedIndex.get(terms[i]) != null ? invertedIndex.get(terms[i]): new LinkedList<Integer>();
+			}
+			Integer i = terms.length-1;
+			while (i > 0){
+				Integer pointer1 = 0;
+				Integer pointer2 = 0;
+				LinkedList<Integer> tempLinkedList = new LinkedList<Integer>();
+				while (pointer1 < termsPostingsArray[i].size() && pointer2 < termsPostingsArray[i-1].size()){
+//					System.out.println(terms[i]+": "+termsPostingsArray[i].get(pointer1)+" "+terms[i-1]+": "+termsPostingsArray[i-1].get(pointer2)+" "+(termsPostingsArray[i-1].get(pointer2).equals(termsPostingsArray[i].get(pointer1))));
+					if(termsPostingsArray[i].get(pointer1).equals(termsPostingsArray[i-1].get(pointer2))){
+						tempLinkedList.add(termsPostingsArray[i].get(pointer1));
+						pointer1++;
+						pointer2++;
+					}
+					else if(termsPostingsArray[i].get(pointer1) < termsPostingsArray[i-1].get(pointer2)){
+						pointer1++;
+					}
+					else{
+						pointer2++;
+					}
+					numComparisons++;
+				}
+				if (tempLinkedList.size() == 0){
+					outputFile.print("empty");
+					outputFile.println("\nNumber of documents in results: 0");
+					outputFile.println("Number of comparisons: " + numComparisons);
+					return;
+				}
+				termsPostingsArray[i-1] = tempLinkedList;
+				i --;
+			}
+			for(i=0;i<termsPostingsArray[0].size();i++){
+				outputFile.print(termsPostingsArray[0].get(i));
+				if(i != termsPostingsArray[0].size()-1){
+					outputFile.print(" ");
+				}
+			}
+			outputFile.println("\nNumber of documents in results: " + termsPostingsArray[0].size());
+			outputFile.println("Number of comparisons: " + numComparisons);
+			
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -135,7 +207,63 @@ public class LuceneProject {
 	
 	public static void TaatOr (String termString) {
 		try {
-			System.out.println("TaatOr " + termString);
+			String[] terms = termString.split(" ");
+			Integer numComparisons = 0;
+			outputFile.println("TaatOr");
+			outputFile.println(termString);
+			outputFile.print("Results: ");
+
+//			System.out.println();
+			terms = GetSortedTermsList(terms);
+			LinkedList<Integer>[] termsPostingsArray = new LinkedList[terms.length];
+			for(int i=0; i<terms.length;i++){
+				termsPostingsArray[i] = invertedIndex.get(terms[i]) != null ? invertedIndex.get(terms[i]): new LinkedList<Integer>();
+			}
+			Integer i = terms.length-1;
+			while (i > 0){
+				Integer pointer1 = 0;
+				Integer pointer2 = 0;
+				LinkedList<Integer> tempLinkedList = new LinkedList<Integer>();
+				while (pointer1 < termsPostingsArray[i].size() && pointer2 < termsPostingsArray[i-1].size()){
+//					System.out.println(terms[i]+": "+termsPostingsArray[i].get(pointer1)+" "+terms[i-1]+": "+termsPostingsArray[i-1].get(pointer2)+" "+(termsPostingsArray[i-1].get(pointer2).equals(termsPostingsArray[i].get(pointer1))));
+					if(termsPostingsArray[i].get(pointer1).equals(termsPostingsArray[i-1].get(pointer2))){
+						tempLinkedList.add(termsPostingsArray[i].get(pointer1));
+						pointer1++;
+						pointer2++;
+					}
+					else if(termsPostingsArray[i].get(pointer1) < termsPostingsArray[i-1].get(pointer2)){
+						tempLinkedList.add(termsPostingsArray[i].get(pointer1));
+						pointer1++;
+					}
+					else{
+						tempLinkedList.add(termsPostingsArray[i-1].get(pointer2));
+						pointer2++;
+					}
+					numComparisons++;
+				}
+				while(pointer1 < termsPostingsArray[i].size()){
+					tempLinkedList.add(termsPostingsArray[i].get(pointer1));
+					pointer1++;
+				}
+				while(pointer2 < termsPostingsArray[i-1].size()){
+					tempLinkedList.add(termsPostingsArray[i-1].get(pointer2));
+					pointer2++;
+				}
+				termsPostingsArray[i-1] = tempLinkedList;
+				i --;
+			}
+			for(i=0;i<termsPostingsArray[0].size();i++){
+				outputFile.print(termsPostingsArray[0].get(i));
+				if(i != termsPostingsArray[0].size()-1){
+					outputFile.print(" ");
+				}
+			}
+			if(termsPostingsArray[0].size() == 0){
+				outputFile.print("empty");
+			}
+			outputFile.println("\nNumber of documents in results: " + termsPostingsArray[0].size());
+			outputFile.println("Number of comparisons: " + numComparisons);
+
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
