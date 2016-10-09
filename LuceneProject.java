@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -271,7 +272,40 @@ public class LuceneProject {
 	
 	public static void DaatAnd (String termString) {
 		try {
-			System.out.println("DaatAnd " + termString);
+			String[] terms = termString.split(" ");
+			Integer numComparisons = 0;
+			outputFile.println("DaatAnd");
+			outputFile.println(termString);
+			outputFile.print("Results: ");
+			HashMap<Integer, Integer> documentScore = new HashMap<Integer, Integer>();
+			terms = GetSortedTermsList(terms);
+			for (String term : terms){
+				LinkedList<Integer> tempLinkedList = invertedIndex.get(term) != null ? invertedIndex.get(term): new LinkedList<Integer>();
+				for (int i=0;i<tempLinkedList.size();i++){
+					Integer tempDocId = tempLinkedList.get(i);
+					if (!documentScore.containsKey(tempDocId)){
+						documentScore.put(tempDocId, 0);
+					}
+					numComparisons++;
+					documentScore.put(tempDocId, documentScore.get(tempDocId)+1);
+				}
+			}
+			Object[] documents = documentScore.keySet().toArray();
+			Arrays.sort(documents);
+			Integer numDocuments = 0;
+			for (int i=0;i<documents.length;i++){
+				Integer tempScore = documentScore.get(documents[i]);
+				if (tempScore == terms.length){
+					outputFile.print(documents[i]+" ");
+					numDocuments++;
+				}
+			}
+			if(numDocuments == 0){
+				outputFile.print("empty");
+			}
+			outputFile.println("\nNumber of documents in results: " + numDocuments);
+			outputFile.println("Number of comparisons: " + numComparisons);
+//			System.out.println("DaatAnd " + termString);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -279,7 +313,40 @@ public class LuceneProject {
 	
 	public static void DaatOr (String termString) {
 		try {
-			System.out.println("DaatOr " + termString);
+			String[] terms = termString.split(" ");
+			Integer numComparisons = 0;
+			outputFile.println("DaatOr");
+			outputFile.println(termString);
+			outputFile.print("Results: ");
+			HashMap<Integer, Integer> documentScore = new HashMap<Integer, Integer>();
+			terms = GetSortedTermsList(terms);
+			for (String term : terms){
+				LinkedList<Integer> tempLinkedList = invertedIndex.get(term) != null ? invertedIndex.get(term): new LinkedList<Integer>();
+				for (int i=0;i<tempLinkedList.size();i++){
+					Integer tempDocId = tempLinkedList.get(i);
+					if (!documentScore.containsKey(tempDocId)){
+						documentScore.put(tempDocId, 0);
+					}
+					numComparisons++;
+					documentScore.put(tempDocId, documentScore.get(tempDocId)+1);
+				}
+			}
+			Object[] documents = documentScore.keySet().toArray();
+			Arrays.sort(documents);
+			Integer numDocuments = 0;
+			for (int i=0;i<documents.length;i++){
+				Integer tempScore = documentScore.get(documents[i]);
+				if (tempScore > 0){
+					outputFile.print(documents[i]+" ");
+					numDocuments++;
+				}
+			}
+			if(numDocuments == 0){
+				outputFile.print("empty");
+			}
+			outputFile.println("\nNumber of documents in results: " + numDocuments);
+			outputFile.println("Number of comparisons: " + numComparisons);
+//			System.out.println("DaatOr " + termString);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}

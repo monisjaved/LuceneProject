@@ -1,9 +1,81 @@
 GetPostings
+zwischenbericht
+Postings list: 31662 31671 31676 31782 31842 31888 31949 32051 32066 32082 32127 32143 32171 32215 32296
+GetPostings
+zweit
+Postings list: 31655 31662 31674 31681 31682 31684 31700 31719 31738 31770 31800 31801 31805 31831 31833 31847 31863 31865 31875 31901 31903 31908 31911 31913 31917 31918 31941 31942 31943 31946 31970 31991 31999 32000 32003 32007 32027 32044 32051 32074 32079 32082 32110 32123 32129 32137 32143 32147 32159 32165 32167 32171 32179 32182 32189 32202 32215 32222 32225 32230 32232 32247 32270 32273 32283 32291 32295 32296 32302 32307 32320 32335
+TaatAnd
+zwischenbericht zweit
+Results: 31662 32051 32082 32143 32171 32215 32296
+Number of documents in results: 7
+Number of comparisons: 76
+TaatOr
+zwischenbericht zweit
+Results: 31655 31662 31671 31674 31676 31681 31682 31684 31700 31719 31738 31770 31782 31800 31801 31805 31831 31833 31842 31847 31863 31865 31875 31888 31901 31903 31908 31911 31913 31917 31918 31941 31942 31943 31946 31949 31970 31991 31999 32000 32003 32007 32027 32044 32051 32066 32074 32079 32082 32110 32123 32127 32129 32137 32143 32147 32159 32165 32167 32171 32179 32182 32189 32202 32215 32222 32225 32230 32232 32247 32270 32273 32283 32291 32295 32296 32302 32307 32320 32335
+Number of documents in results: 80
+Number of comparisons: 76
+DaatAnd
+zwischenbericht zweit
+Results: 31662 32051 32082 32143 32171 32215 32296 
+Number of documents in results: 7
+Number of comparisons: 87
+DaatOr
+zwischenbericht zweit
+Results: 31655 31662 31671 31674 31676 31681 31682 31684 31700 31719 31738 31770 31782 31800 31801 31805 31831 31833 31842 31847 31863 31865 31875 31888 31901 31903 31908 31911 31913 31917 31918 31941 31942 31943 31946 31949 31970 31991 31999 32000 32003 32007 32027 32044 32051 32066 32074 32079 32082 32110 32123 32127 32129 32137 32143 32147 32159 32165 32167 32171 32179 32182 32189 32202 32215 32222 32225 32230 32232 32247 32270 32273 32283 32291 32295 32296 32302 32307 32320 32335 
+Number of documents in results: 80
+Number of comparisons: 87
+GetPostings
+vorzeich
+Postings list: 31742 32109 32213
+GetPostings
+findet
+Postings list: 31659 31769 32205 32213
+TaatAnd
+vorzeich findet
+Results: 32213
+Number of documents in results: 1
+Number of comparisons: 6
+TaatOr
+vorzeich findet
+Results: 31659 31742 31769 32109 32205 32213
+Number of documents in results: 6
+Number of comparisons: 6
+DaatAnd
+vorzeich findet
+Results: 32213 
+Number of documents in results: 1
+Number of comparisons: 7
+DaatOr
+vorzeich findet
+Results: 31659 31742 31769 32109 32205 32213 
+Number of documents in results: 6
+Number of comparisons: 7
+GetPostings
 term0
 Postings list: 
 GetPostings
 term1
 Postings list: 
+TaatAnd
+term0 term1 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+TaatOr
+term0 term1 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+DaatAnd
+term0 term1 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+DaatOr
+term0 term1 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
 GetPostings
 term2
 Postings list: 
@@ -22,6 +94,26 @@ Postings list:
 GetPostings
 term7
 Postings list: 
+TaatAnd
+term2 term3 term4 term5 term6 term7 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+TaatOr
+term2 term3 term4 term5 term6 term7 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+DaatAnd
+term2 term3 term4 term5 term6 term7 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+DaatOr
+term2 term3 term4 term5 term6 term7 
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
 GetPostings
 term8
 Postings list: 
@@ -31,3 +123,23 @@ Postings list:
 GetPostings
 term10
 Postings list: 
+TaatAnd
+term8 term9 term10
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+TaatOr
+term8 term9 term10
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+DaatAnd
+term8 term9 term10
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
+DaatOr
+term8 term9 term10
+Results: empty
+Number of documents in results: 0
+Number of comparisons: 0
